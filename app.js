@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const methodOverride = require("method-override");
+const morgan = require("morgan");
 const mongoose = require("mongoose");
 const Campground = require("./models/campground")
 
@@ -18,6 +19,7 @@ db.once("open", () => {
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(morgan("dev"));
 const PORT = 3000;
 
 app.set("view engine", "ejs");
