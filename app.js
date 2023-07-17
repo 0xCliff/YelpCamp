@@ -1,14 +1,13 @@
 const express = require("express");
 const path = require("path");
 const methodOverride = require("method-override");
-const morgan = require("morgan");
 const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
 const catchAsync = require("./utils/catchAsync");
 const AppError = require("./utils/AppError");
 const Campground = require("./models/campground");
 
-mongoose.connect("mongodb://localhost:27017/yelp-camp", {
+mongoose.connect("mongodb://127.0.0.1:27017/yelp-camp", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -22,7 +21,6 @@ db.once("open", () => {
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-// app.use(morgan("dev"));
 const PORT = 3000;
 
 app.engine("ejs", ejsMate);
