@@ -3,6 +3,7 @@ const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const mongoose = require('mongoose');
+const session = require('express-session');
 
 const AppError = require('./utils/AppError');
 const campgrounds = require('./routes/campgrounds');
@@ -19,10 +20,22 @@ db.once('open', () => {
   console.log('Database Connected.');
 });
 
+sessionConfig = {
+  secret: 'thisshouldbeabettersecret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true,
+  },
+};
+
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session(sessionConfig));
 const PORT = 3000;
 
 app.engine('ejs', ejsMate);
